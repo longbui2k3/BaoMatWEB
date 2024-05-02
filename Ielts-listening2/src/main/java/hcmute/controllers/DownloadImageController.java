@@ -24,10 +24,16 @@ public class DownloadImageController extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	
 	private boolean FilterUserInputPath(String path, HttpServletResponse resp) throws ServletException, IOException  {	
+		// Constants.DIR = C:\\ImagesWeb;
 		File file = new File(Constants.DIR, path);
-		System.out.print(file.getCanonicalPath());
+		
+		// tạo một whitelist là danh sách các tên folder chứa các file
 		String[] validFolders = {"blogIMG", "topicIMG", "videoLesson"};
+		
+		// kiểm tra đường dẫn có bắt đầu với thư mục gốc (C:\\ImagesWeb)+ tên folder nào đó nằm trong whitelist ko
 		int k = 0;
 		for(String folder: validFolders) {
 			if (file.getCanonicalPath().startsWith(Constants.DIR + "\\" + folder)) {
@@ -35,17 +41,18 @@ public class DownloadImageController extends HttpServlet {
 				break;
 			}
 		}
+		// nếu không trả về false
 		if (k == 0) {
 			return false;
 		}
 		return true;
-		
-		
 	}
+	
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String fileName = req.getParameter("fname");
+		// nếu hàm FilterUserInputPath trả về false, đường dẫn trả về NOT FOUND
 		if (!FilterUserInputPath(fileName, resp)) {
 			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			resp.getWriter().println("<html><body><p>NOT FOUND</p></body></html>");

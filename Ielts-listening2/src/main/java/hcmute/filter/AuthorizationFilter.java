@@ -26,8 +26,7 @@ public class AuthorizationFilter implements Filter{
 		if (role != null && role.equals("admin")) {
 			chain.doFilter(request, response);
 		} else {
-//			resp.sendRedirect(req.getContextPath() + "/authentication-login");
-			chain.doFilter(request, response);
+			resp.sendRedirect(req.getContextPath() + "/authentication-login");
 		}
 	}
 }
