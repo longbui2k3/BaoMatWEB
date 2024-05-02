@@ -1,0 +1,157 @@
+@charset "UTF-8";
+
+
+body {
+	counter-set: my-counter 0;
+}
+
+.admin-taobode-btn {
+	margin-bottom: 16px;
+	display: block;
+	width: 164px;
+	height: 46px;
+	line-height: 46px;
+	text-align: center;
+}
+
+.admin-taobode .bodethi {
+	padding: 0 20px;
+}
+
+.admin-taobode .bodethi .accordion {
+	cursor: pointer;
+	padding: 20px;
+	width: 100%;
+	border: none;
+	outline: none;
+	transition: 2s ease-in;
+}
+
+.accordion-order::before {
+	counter-increment: my-counter 1;
+	content: "0" counter(my-counter);
+}
+
+.admin-taobode .bodethi .panel {
+	display: none;
+	background-color: white;
+	overflow: hidden;
+	transition: 0.5s ease-in;
+	margin-top: 16px;
+}
+
+.danhsachbode .panel .list .item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-radius: 8px;
+}
+
+.danhsachbode .panel .list .item-link {
+	flex: 1;
+	padding: 16px 8px 16px 20px;
+}
+
+.danhsachbode .panel .list .item-icon {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-right: 20px;
+}
+
+.danhsachbode .panel .list .item-icon .i {
+	font-size: 14px;
+}
+
+
+/*CARD*/
+.card-cover {
+	padding: 20px;
+	border-radius: 8px !important;
+	height: 100%;
+}
+
+.card-cover .card__img {
+	width: 100%;
+	aspect-ratio: 1/1;
+	border-radius: 4px;
+	margin-top: 16px;
+	object-fit: cover;
+    object-position: center;
+}
+
+.card-cover .card-body {
+	margin: 24px 0 20px;
+}
+
+.card-cover .card-body__title {
+	margin-bottom: 12px;
+}
+
+.card-cover .card-body__text {
+	line-height: 18px;
+	letter-spacing: 0.2px;
+}
+
+.card-cover .card-list {
+	margin-bottom: 3px;
+}
+
+.card-cover .card-list__group {
+	width: fit-content;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 12px;
+}
+
+.card-cover .card-list__group .group__icon {
+	margin-right: 8px;
+	font-size: 14px;
+}
+
+.card-cover .card-list__group .group__content {
+	color: #333;
+	text-align: end;
+}
+
+/*Popup*/
+.popup {
+	width: 500px;
+	height: 300px;
+	padding: 15px;
+	background-color: #f3e2e2;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	box-shadow: 2px 4px 75px 2px rgb(85 85 85 / 50%);
+	display: none;
+}
+
+#popup-add-bo-de{
+    width: 50%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+#shadow{
+	display: none;
+	opacity: 0.5;
+    z-index: 2;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+}
+
+td{
+	cursor: pointer;
+}
+
+.mocktest-item{
+	display: none;
+}

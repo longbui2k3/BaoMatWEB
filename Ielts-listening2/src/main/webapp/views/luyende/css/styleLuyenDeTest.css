@@ -1,0 +1,529 @@
+@charset "ISO-8859-1";
+
+:root {
+    --light-blue: #EFF6FF;
+    --dark-blue: #0071F9;
+    --light-red: #ffd9dd;
+    --dark-red: #F33F51;
+    --dark-green: #00B135;
+    --light-green: #e8feef;
+    --basic-font-size: 16px;
+    --basic-border-radius: 12px;
+    --btn-save-draft-color: #F59E0B;
+    --dark-blue2: #03499e;
+    
+    --error: #ff623d;
+    --warning: #ffcc00;
+    --info: #2f86eb;
+}
+
+#test {
+    font-size: 16px;
+}
+
+#test h6, 
+#test h3,
+#test p {
+    margin-bottom: 0px;
+}
+
+#test ul {
+    padding-left: 0px;
+}
+
+#test li {
+    list-style-type: none;
+}
+
+#test a.disabled {
+    opacity: 0.6;
+}
+
+#test input[type="range"]{
+    height: 6px;
+    outline: none;
+    overflow: visible;
+}
+
+#test input[type="range"]::-webkit-slider-thumb {
+    height: 16px;
+    width: 16px;
+    background-color: var(--dark-blue);
+    cursor: pointer;
+}
+
+#test h6 {
+    font-size: 20px;
+}
+
+#test a {
+    text-decoration: none;
+    color: #000;
+}
+
+#test i {
+    font-size: 24px;
+}
+
+
+#test .nav-test{
+    padding: 16px 0px;
+    border-bottom: 2px #ccc solid;
+}
+
+#test .nav-test a {
+    border-radius: var(--basic-border-radius);
+}
+
+#test .nav-test a:hover {
+    background-color: var(--dark-blue);
+    color: #fff;
+}
+
+#test .nav-test .btn-exit {
+    border-radius: 12px;
+    padding: 8px 12px;
+    display: flex;
+    background-color: #ccc;
+    justify-content: center;
+    align-items: center;
+    margin-right: 8px;
+}
+
+#test .nav-test .logo {
+    height: 34px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+#test .nav-test .test-time{
+    display: inline-flex;
+    width: 170px;
+    padding: 6px 8px;
+    background-color: var(--dark-red);
+    color: #fff;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--basic-border-radius);
+    margin-right: 8px;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(-25deg);
+    }
+
+    to {
+        transform: rotate(25deg);
+    }
+}
+
+#test .nav-test .test-time i{
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    /*animation: rotate 0.5s ease infinite alternate, ripple 3s linear infinite;*/
+}
+
+#test .nav-test .test-time i::before,
+#test .nav-test .test-time i::after {
+    display: grid;
+    place-items: center;
+    width: inherit;
+    height: inherit;
+    border-radius: 50%;
+    animation: inherit;
+    animation-delay: 1s;
+}
+
+#test .nav-test .test-time i::after {
+    animation-delay: 2s;
+}
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 .2rem rgba(0, 0, 255, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 2rem rgba(0, 0, 255, 0);
+  }
+}
+
+#test .nav-test .test-time h6{
+	font-size: 24px;
+}
+
+#test .test-content{
+    margin-top: 8px;
+}
+
+#test .audio-area {
+    padding: 16px 12px;
+    background-color: var(--light-blue);
+    border-radius: var(--basic-border-radius);
+}
+
+#test .audio-area i{
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#test .audio-area .btn-toggle-play {
+    width: 40px;
+    height: 40px;
+    color: #fff;
+    background-color: var(--dark-blue);
+    cursor: pointer;
+}
+
+#test .audio-area .btn-toggle-play i {
+    font-size: 28px;
+}
+
+#test .btn-toggle-play .icon-pause {
+    display: none;
+}
+
+#test .btn-toggle-play.playing .icon-pause {
+    display: inline-block;
+}
+
+#test .btn-toggle-play.playing .icon-play {
+    display: none;
+}
+
+#test .audio-area .time-audio{
+    font-size: 12px;
+    text-align: center;
+}
+
+#test .audio-area .volume {
+    position: relative;
+    cursor: pointer;
+}
+
+#test .audio-area .volume .volume-control {
+    font-size: 12px;
+    display: none;
+    position: relative;
+}
+
+#test .audio-area .volume:hover .volume-control {
+    display: flex;
+}
+
+#test .audio-area .volume .volume-range {
+    width: 80px;
+} 
+
+#test .audio-area .volume .volume-control .volume-text {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 8px;
+}
+
+#test .question-area {
+    margin-top: 16px;
+}
+
+#test .question-area .question-container {
+    padding: 16px;
+    background-color: var(--light-blue);
+    border-radius: var(--basic-border-radius);
+    font-size: 14px;
+    margin-top: 16px;
+}
+
+#test .question-container i{
+    display: inline-flex;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 4px;
+}
+
+#test .question-container .icon-answered {
+    background-color: var(--dark-blue);
+}
+
+#test .question-container .icon-notAnswered {
+    border: var(--dark-blue) solid 1px;
+}
+
+#test .question-container .number-question-item {
+    display: inline-flex;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: var(--dark-blue) solid 1px;
+    justify-content: center;
+    margin: 8px 12px;
+    color: var(--dark-blue);
+}
+
+#test .question-container .number-question-item.answered {
+    background-color: var(--dark-blue);
+    color: #fff;
+}
+
+#test .question-container .number-question-item:hover{
+    opacity: 0.8;
+}
+
+#test .question-container .number-question-item.correct {
+    background-color: var(--dark-green);
+    border: var(--dark-green) solid;
+    color: #fff;
+}
+
+#test .question-container .number-question-item.incorrect{
+    background-color: var(--dark-red);
+    border: var(--dark-red) solid;
+    color: #fff;
+}
+
+#test .test-result-area {
+    margin-top: 16px;
+}
+
+#test .test-result-area .test-score {
+    display: block;/*sua thanh none*/
+    background-color: var(--light-blue);
+    border-radius: var(--basic-border-radius);
+    padding: 4px 8px;
+}
+
+#test .test-result-area .test-score img {
+    width: 80px;
+    height: 80px;
+}
+
+#test .test-result-area .test-score h3 {
+    color: var(--dark-blue);
+}
+
+#test .test-result-area .test-score span{
+    font-size: 14px;
+}
+
+#test .test-result-area .a-btn{
+    background-color: var(--light-blue);
+    border-radius: var(--basic-border-radius);
+    padding: 8px 12px;
+    color: var(--dark-blue);
+}
+
+
+#test .reading-session {
+    border-left: #ccc solid 2px;
+    border-right: #ccc solid 2px;
+}
+
+#test .reading-session .heading-container {
+    background-color: var(--light-blue);
+    border-radius: var(--basic-border-radius);
+    padding: 8px 16px;
+}
+
+#test .reading-session .icon{
+    font-size: 16px;
+    display: block;
+    width: 24px;
+    height: 24px;
+    color: #fff;
+    border-radius: 50%;
+    background-color: var(--dark-blue);
+}
+
+#test .reading-session .icon i{
+    font-size: 16px;
+}
+
+#test .reading-session img{
+    width: 100%;
+}
+
+#test .answer-container {
+    background-color: var(--light-blue);
+    border-radius: var(--basic-border-radius);
+    padding: 16px;
+}
+
+#test .answer-container .answer-item {
+    margin-bottom: 16px;
+}
+
+#test .answer-container .answer-item:last-child {
+    margin-bottom: 0px;
+}
+
+#test .answer-container .answer-item .number-question{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--dark-blue);
+    color: #fff;
+    margin-right: 8px;
+}
+
+#test .answer-container .answer-item.correct .number-question {
+    background-color: var(--dark-green);
+}
+
+#test .answer-container .answer-item.incorrect .number-question {
+    background-color: var(--dark-red);
+}
+
+#test .answer-container .answer-item .answer-input {
+    border-radius: var(--basic-border-radius);
+    border: var(--dark-blue) solid;
+    background-color: #fff;
+    width: 100%;
+}
+
+#test .answer-container .answer-item .answer-input:focus {
+    border: var(--dark-blue2) solid;
+    outline: none;
+}
+
+#test .answer-container .answer-item  .correct-answer {
+    display: block;
+    color: var(--dark-green);
+}
+
+#test .answer-container .answer-item.correct .answer-input {
+    border: var(--dark-green) solid;
+    background-color: var(--light-green);
+    color: var(--dark-green);
+}
+
+#test .answer-container .answer-item.incorrect .answer-input {
+    border: var(--dark-red) solid;
+    background-color: var(--light-red);
+    color: var(--dark-red);
+}
+
+#test .btn-next-questions {
+    color: var(--dark-blue);
+    border-radius: var(--basic-border-radius);
+    border: var(--dark-blue) solid 2px;
+    padding: 6px 12px;
+}
+
+#test .btn-submit-test{
+    color: var(--btn-save-draft-color);
+    background-color: #fff;
+    width: 100%;
+    border-radius: var(--basic-border-radius);
+    border: var(--btn-save-draft-color) solid 2px;
+    padding: 6px 12px;
+}
+
+
+#my-toast{
+    position: fixed;
+    top: 32px;
+    right: 32px;
+}
+
+.my-toast{
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    min-width: 400px;
+    max-width: 450px;
+    border-radius: 2px;
+    padding: 12px 0;
+    box-shadow: 0 4px 8px 4px rgba(0, 0, 0, 0.08);
+    transition: all linear .3s;
+}
+
+@keyframes slideInLeft{
+    from{
+        opacity: 0;
+        transform: translateX(calc(100% + 40px));
+    }
+    to{
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeOut{
+    to{
+        opacity: 0;
+    }
+}
+
+.my-toast + .my-toast{
+    margin-top: 24px;
+}
+
+.my-toast .toast-icon{
+    border-radius: 50%;
+    margin: 0 16px;
+    color: #fff;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+}
+
+.my-toast .toast-body .toast-title{
+    font-size: 16px;
+    color: #333;
+}
+
+.my-toast .toast-body .toast-msg{
+    color: #6d6d6d;
+    line-height: 1.5;
+    margin-top: 4px;
+}
+
+.my-toast .toast-close{
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: 12px;
+}
+
+.my-toast .my-border{
+    position: absolute;
+    height: 50%;
+    width: 50%;
+    border-radius: 4px;
+    transform: translateY(calc(50% + 8px)) translateX(-8px);
+}
+
+.my-toast.toast-error .toast-icon{
+    background-color: var(--error);
+}
+
+.my-toast.toast-error .my-border{
+    border-left: 4px var(--error) solid;
+    border-bottom: 4px var(--error) solid;
+}
+
+.my-toast.toast-warning .toast-icon{
+    background-color: var(--warning);
+}
+
+.my-toast.toast-warning .my-border{
+    border-left: 4px var(--warning) solid;
+    border-bottom: 4px var(--warning) solid;
+}
+
+.my-toast.toast-info .toast-icon{
+    background-color: var(--info);
+}
+
+.my-toast.toast-info .my-border{
+    border-left: 4px var(--info) solid;
+    border-bottom: 4px var(--info) solid;
+}

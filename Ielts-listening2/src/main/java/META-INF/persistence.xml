@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<persistence version="2.2"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+
+	<persistence-unit name="IeltsListeningWeb">
+		<class>hcmute.entity.User</class>
+		<class>hcmute.entity.UserCourse</class>
+		<class>hcmute.entity.Cart</class>
+		<class>hcmute.entity.PayDetail</class>
+		<class>hcmute.entity.Payment</class>
+		<class>hcmute.entity.Course</class>
+		<class>hcmute.entity.Account</class>
+		<class>hcmute.entity.Lesson</class>
+		<class>hcmute.entity.EnrrolLesson</class>
+		<class>hcmute.entity.Notify</class>
+		<class>hcmute.entity.AnswerLesson</class>
+		<class>hcmute.entity.AnswerTest</class>
+		<class>hcmute.entity.CommentLesson</class>
+		<class>hcmute.entity.RepComment</class>
+		<class>hcmute.entity.MockTest</class>
+		<class>hcmute.entity.ListeningPart</class>
+		<class>hcmute.entity.TopicTest</class>
+		<class>hcmute.entity.AnswerLessonUser</class>
+		<class>hcmute.entity.AnswerUser</class>
+
+
+		<properties>
+			<property name="javax.persistence.jdbc.url"
+				value="jdbc:mysql://localhost:3306/ieltslisteningweb" />
+			<property name="javax.persistence.jdbc.user" value="root" />
+			<property name="javax.persistence.jdbc.password"
+				value="1234567890" />
+			<property name="javax.persistence.jdbc.driver"
+				value="com.mysql.cj.jdbc.Driver" />
+			<property name="hibernate.dialect"
+				value="org.hibernate.dialect.MySQLInnoDBDialect" />
+
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+
+			<property name="initialSize" value="1000" />
+        <property name="maxActive" value="50" />
+        <property name="maxWait" value="5000" />
+        <property name="maxIdle" value="1" />
+		</properties>
+	</persistence-unit>
+
+
+</persistence>
