@@ -123,29 +123,35 @@ public class CartController extends HttpServlet {
 					}
 				}
 				List<UserCourse> usercourseList = userCourseService.findByUserIdAndCourseId(user.getUserId(), courseId);
-				if (usercourseList.size() != 0)
-					flag = 1;
-				if (flag == 1) {
-					System.out.println("Da mua");
-					req.setAttribute("err", "Existed");
-					resp.sendRedirect(req.getContextPath() + "/user/" + lastPrevUrl);
-				} else {
-					Course course = courseService.findById(courseId);
-					Cart cart = new Cart();
-					cart.setCourse(course);
-					cart.setUsers(user);
-					cart.setBuy(false);
-					cart.setCartId("ID");
-					cartService.insert(cart);
-					List<Cart> cartsUpdated = cartService.findByUserId(user.getUserId());
-					List<Cart> finalCarts = new ArrayList<Cart>();
-					for (Cart cart2 : cartsUpdated) {
-						if (cart2.isBuy() == false)
-							finalCarts.add(cart2);
-					}
+				if(usercourseList != null) {
+					if (usercourseList.size() != 0)
+						flag = 1;
+					if (flag == 1) {
+						req.setAttribute("err", "Existed");
+						resp.sendRedirect(req.getContextPath() + "/user/" + lastPrevUrl);
+					} else {
+						Course course = courseService.findById(courseId);
+						if(course != null) {
+							Cart cart = new Cart();
+							cart.setCourse(course);
+							cart.setUsers(user);
+							cart.setBuy(false);
+							cart.setCartId("ID");
+							cartService.insert(cart);
+							List<Cart> cartsUpdated = cartService.findByUserId(user.getUserId());
+							List<Cart> finalCarts = new ArrayList<Cart>();
+							for (Cart cart2 : cartsUpdated) {
+								if (cart2.isBuy() == false)
+									finalCarts.add(cart2);
+							}
 
-					session.setAttribute("cart", finalCarts);
-					resp.sendRedirect(req.getContextPath() + "/user/" + lastPrevUrl);
+							session.setAttribute("cart", finalCarts);
+							resp.sendRedirect(req.getContextPath() + "/user/" + lastPrevUrl);
+						}else {
+							RequestDispatcher rd = req.getRequestDispatcher("/views/user/error404.jsp");
+							rd.forward(req, resp);
+						}
+					}
 				}
 
 			}

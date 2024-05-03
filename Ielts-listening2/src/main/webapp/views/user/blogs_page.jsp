@@ -3,6 +3,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <%@ include file="/common/taglib.jsp"%>
+
+<%
+    // Prevent timestamp disclosure in headers
+    response.setDateHeader("Expires", 0);
+    response.setHeader("Pragma", "no-cache");
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+%>
+
 <!doctype html>
 <html lang="vi">
 
@@ -113,6 +121,7 @@
               </div>
 			
             <c:forEach var="blog" items="${listBlog}">
+        
                 <div class="col-xl-4 col-lg-4 col-md-6 col-12">
                     <div class="card mb-4 shadow-lg card-lift">
                         <a href="<c:url value='/user/blog-content?id=${blog.blogId}'/>">
@@ -121,8 +130,9 @@
                         <div class="card-body">
                         <p class="fs-5 mb-2 fw-semibold d-block text-success">Blogs</p>
                         <h3><a href="<c:url value='/user/blog-content?id=${blog.blogId}'/>" class="blog-content__text blog-title__text text-primary text-inherit">${blog.title}</a></h3>
-                        <div class="blog-content__text">${blog.content}</div>
-                        <div class="row align-items-center g-0 mt-4">
+                     <%-- <div class="blog-content__text">${blog.content}</div> --%>
+            
+ <div class="row align-items-center g-0 mt-4">
                             <div class="col-auto">
                             <img onerror="setDefaultImage(this)" src="<c:url value='/image?fname=${avatarIMG}/${blog.users.image}'/>" alt="avatar" 
                               class="rounded-circle avatar-sm me-2" onerror="this.onerror=null; this.src=''"/>

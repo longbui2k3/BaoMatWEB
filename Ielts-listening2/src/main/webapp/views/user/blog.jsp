@@ -3,6 +3,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <%@ include file="/common/taglib.jsp"%>
+
+<%
+    // Prevent timestamp disclosure in headers
+    response.setDateHeader("Expires", 0);
+    response.setHeader("Pragma", "no-cache");
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+%>
+
 <!doctype html>
 <html lang="vi">
 

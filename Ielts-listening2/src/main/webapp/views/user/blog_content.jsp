@@ -3,7 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="/common/taglib.jsp"%>
 
-
+<%
+    // Prevent timestamp disclosure in headers
+    response.setDateHeader("Expires", 0);
+    response.setHeader("Pragma", "no-cache");
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+%>
 
 <body class="bg-white">
 	<!-- Page content -->
@@ -89,8 +94,8 @@
 											<div class="card-body">
 												<a href="blog-content?id=${list.blogId }"
 													class="fs-5 fw-semibold d-block mb-3 text-primary">${list.title }</a>
-												<div class="blog-content__text">${list.content }</div>
-												<p></p>
+<%-- 												<div class="blog-content__text">${list.content }</div>
+ --%>												<p></p>
 												<!-- Media content -->
 												<div class="row align-items-center g-0 mt-4">
 													<div class="col-auto">
@@ -99,7 +104,7 @@
 													</div>
 													<div class="col lh-1">
 														<h5 class="mb-1">${list.users.name }</h5>
-														<p class="fs-6 mb-0">${list.createdDate }</p>
+														<%-- <p class="fs-6 mb-0">${list.createdDate }</p> --%>
 													</div>
 												</div>
 											</div>

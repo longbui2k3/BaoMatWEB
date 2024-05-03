@@ -40,8 +40,14 @@ public class UserBlogController extends HttpServlet {
 		String url = req.getRequestURI().toString();
 		req.setCharacterEncoding("UTF-8");
 		resp.setCharacterEncoding("UTF-8");
+		
+		// Prevent timestamp disclosure in headers
+        resp.setDateHeader("Expires", 0);
+        resp.setHeader("Pragma", "no-cache");
+        resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 
 		if (url.contains("blogs-page")) {
+			
 		    String pageParam = req.getParameter("page");
 		    int page = 1; // Giá trị mặc định
 		    if (pageParam != null && !pageParam.isEmpty()) {
@@ -49,8 +55,6 @@ public class UserBlogController extends HttpServlet {
 		            page = Integer.parseInt(pageParam);
 		        } catch (NumberFormatException e) {
 		        	page = 2;
-		            // Xử lý ngoại lệ khi pageParam không phải là một số nguyên
-		            // Ví dụ: ghi log, gửi thông báo lỗi, hoặc sử dụng giá trị mặc định
 		        }
 		    }
 
@@ -60,6 +64,13 @@ public class UserBlogController extends HttpServlet {
 		    }
 		    
 		    List<Blog> listBlog = blogService.findAll(searchStr);
+		    
+		    for(var blog : listBlog) {
+		    	String contentWithoutTimestamps = blog.getContent().replaceAll("\\d{10}", "");
+		    	// Set the preprocessed content to the blog object
+		    	blog.setContent(contentWithoutTimestamps);
+		    }
+		    
 		    List<User> listUser = uService.findAll();
 		    int pagesize = 3 * 3;
 		    List<Blog> listBlogPage = blogService.findAll(page - 1, pagesize, searchStr);
@@ -75,6 +86,11 @@ public class UserBlogController extends HttpServlet {
 		    String id = req.getParameter("id");
 		    Blog blog = blogService.findOneById(id);
 		    if (blog != null) {
+		    	
+		    	String contentWithoutTimestamps = blog.getContent().replaceAll("\\d{10}", "");
+		    	// Set the preprocessed content to the blog object
+		    	blog.setContent(contentWithoutTimestamps);
+		    	
 		        req.setAttribute("listBlog", blogService.Find3blog(id));
 		        req.setAttribute("blog", blog);
 		        req.setAttribute("folder", Constants.FOLDER_BLOG);
