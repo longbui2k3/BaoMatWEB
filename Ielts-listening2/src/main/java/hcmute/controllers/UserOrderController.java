@@ -49,7 +49,7 @@ public class UserOrderController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		resp.setHeader("Content-Security-Policy", "default-src 'self'");
+		resp.setHeader("Content-Security-Policy", "default-src 'self'; frame-ancestors 'self'; form-action 'self'");
 		String url = req.getRequestURI().toString();
 		HttpSession session = req.getSession(false);
 		user = (User) session.getAttribute("user");

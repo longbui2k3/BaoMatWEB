@@ -30,7 +30,7 @@ public class UserController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/html");
 
-		resp.setHeader("Content-Security-Policy", "default-src 'self'");
+		resp.setHeader("Content-Security-Policy", "default-src 'self'; frame-ancestors 'self'; form-action 'self'");
 
 		String url = req.getRequestURI().toString();
 

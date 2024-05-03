@@ -43,7 +43,7 @@ public class UserBlogController extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		resp.setCharacterEncoding("UTF-8");
 
-		resp.setHeader("Content-Security-Policy", "default-src 'self'");
+		resp.setHeader("Content-Security-Policy", "default-src 'self'; frame-ancestors 'self'; form-action 'self'");
 
 		if (url.contains("blogs-page")) {
 			int page = Integer.parseInt(req.getParameter("page") == null ? "1" : req.getParameter("page"));

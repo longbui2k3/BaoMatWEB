@@ -45,7 +45,7 @@ public class LuyenDeHomeController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		response.setHeader("Content-Security-Policy", "default-src 'self'");
+		resp.setHeader("Content-Security-Policy", "default-src 'self'; frame-ancestors 'self'; form-action 'self'");
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		if (user != null && enrollTestService.findEnTestProcess(user.getUserId()) != null) {
