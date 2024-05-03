@@ -40,7 +40,7 @@ public class UserBlogController extends HttpServlet {
 		String url = req.getRequestURI().toString();
 		req.setCharacterEncoding("UTF-8");
 		resp.setCharacterEncoding("UTF-8");
-
+		resp.setHeader("X-Frame-Options", "DENY");
 		if (url.contains("blogs-page")) {
 			int page = Integer.parseInt(req.getParameter("page") == null ? "1" : req.getParameter("page"));
 			String searchStr = req.getParameter("search") == null ? "" : req.getParameter("search");

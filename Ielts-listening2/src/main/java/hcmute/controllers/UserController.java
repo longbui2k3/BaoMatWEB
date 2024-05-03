@@ -33,7 +33,8 @@ public class UserController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/html");
 		String url = req.getRequestURI().toString();
-
+		resp.setHeader("X-Frame-Options", "DENY");
+        resp.getWriter().println("Hello, world!");
 		if (url.contains("home")) {
 			FindIncreaseRate(req, resp);
 			RequestDispatcher rd = req.getRequestDispatcher("/views/user/Home.jsp");

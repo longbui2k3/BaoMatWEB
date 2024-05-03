@@ -44,10 +44,12 @@ public class AuthenticationControllers extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession(true);
+		
 		String csrfToken = generateCsrfToken();
 		session.setAttribute(CSRF_TOKEN_SESSION_ATTR, csrfToken);
 		String url = req.getRequestURI().toString();
-		
+		resp.setHeader("X-Frame-Options", "DENY");
+
 		if (url.contains("login")) {
 			getLogin(req, resp);
 		} else if (url.contains("signup")) {
@@ -78,6 +80,8 @@ public class AuthenticationControllers extends HttpServlet {
 		} else if (url.contains("resent")) {
 			getResent(req, resp);
 		}
+        
+
 	}
 	private String generateCsrfToken() {
 	    SecureRandom random = new SecureRandom();
@@ -88,6 +92,7 @@ public class AuthenticationControllers extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String url = req.getRequestURI().toString();
+		resp.setHeader("X-Frame-Options", "DENY");
 		HttpSession session = req.getSession(false);
 		String csrfTokenFromSession = (String) session.getAttribute(CSRF_TOKEN_SESSION_ATTR);
 		 String csrfTokenFromRequest = req.getParameter("csrfToken");

@@ -68,6 +68,7 @@ public class UserLessonController extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		resp.setCharacterEncoding("UTF-8");
 		String url = req.getRequestURI().toString();
+		resp.setHeader("X-Frame-Options", "DENY");
 
 		HttpSession session = req.getSession(false);
 		if (session != null && session.getAttribute("user") != null) {

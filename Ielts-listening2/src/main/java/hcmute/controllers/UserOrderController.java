@@ -55,6 +55,7 @@ public class UserOrderController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		String url = req.getRequestURI().toString();
+		resp.setHeader("X-Frame-Options", "DENY");
 		HttpSession session = req.getSession(false);
 		user = (User) session.getAttribute("user");
 		if (user != null) {

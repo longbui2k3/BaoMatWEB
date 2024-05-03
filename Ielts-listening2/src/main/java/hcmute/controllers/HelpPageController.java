@@ -16,7 +16,7 @@ public class HelpPageController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String url = req.getRequestURI().toString();
-		
+		resp.setHeader("X-Frame-Options", "DENY");
 		if (url.contains("helpcenter")) {
 			req.getRequestDispatcher("/views/user/HelpCenter.jsp").forward(req, resp);
 		} else if (url.contains("guides")) {
