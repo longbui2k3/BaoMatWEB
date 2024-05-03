@@ -19,7 +19,9 @@ import hcmute.services.BlogServiceImpl;
 import hcmute.services.IBlogService;
 import hcmute.services.IUserService;
 import hcmute.services.UserServiceImpl;
-import hcmute.utils.*;
+import hcmute.utils.Constants;
+import hcmute.utils.DeleteImage;
+import hcmute.utils.UploadUtils;
 
 @MultipartConfig
 @WebServlet(urlPatterns = { "/user/blogs-page", "/user/blogs", "/user/update-blog-status", "/user/add-blog",
@@ -40,6 +42,8 @@ public class UserBlogController extends HttpServlet {
 		String url = req.getRequestURI().toString();
 		req.setCharacterEncoding("UTF-8");
 		resp.setCharacterEncoding("UTF-8");
+
+		resp.setHeader("Content-Security-Policy", "default-src 'self'");
 
 		if (url.contains("blogs-page")) {
 			int page = Integer.parseInt(req.getParameter("page") == null ? "1" : req.getParameter("page"));

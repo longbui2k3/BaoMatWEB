@@ -5,10 +5,8 @@ import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import javax.persistence.EntityManager;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,10 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import JPAConfig.JPAConfig;
-import hcmute.DAO.IPayDetailDAO;
 import hcmute.entity.Cart;
-import hcmute.entity.CombineCart;
 import hcmute.entity.Course;
 import hcmute.entity.PayDetail;
 import hcmute.entity.Payment;
@@ -54,6 +49,7 @@ public class UserOrderController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+		resp.setHeader("Content-Security-Policy", "default-src 'self'");
 		String url = req.getRequestURI().toString();
 		HttpSession session = req.getSession(false);
 		user = (User) session.getAttribute("user");

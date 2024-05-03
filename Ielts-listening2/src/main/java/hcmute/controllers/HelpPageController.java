@@ -15,6 +15,8 @@ public class HelpPageController extends HttpServlet{
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		resp.setHeader("Content-Security-Policy", "default-src 'self'");
+
 		String url = req.getRequestURI().toString();
 		
 		if (url.contains("helpcenter")) {
