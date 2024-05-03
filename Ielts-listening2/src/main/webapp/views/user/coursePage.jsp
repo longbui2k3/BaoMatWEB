@@ -238,6 +238,8 @@ User user = (User) session.getAttribute("user");
 															<c:when test="${user ne null}">
 																<!-- User is logged in, submit the form -->
 																<form action="addToCart" method="post">
+																	<input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">							
+																
 																	<input type="hidden" name="courseId"
 																		value="${i.courseId }">
 																	<button type="submit"
@@ -349,6 +351,8 @@ User user = (User) session.getAttribute("user");
 															<c:when test="${user ne null}">
 																<!-- User is logged in, submit the form -->
 																<form action="addToCart" method="post">
+																	<input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">							
+																
 																	<input type="hidden" name="courseId"
 																		value="${i.courseId }">
 																	<button type="submit"

@@ -58,6 +58,8 @@
 							<div class="d-flex align-items-center">
 
 								<form action="addToCart" method="post">
+									<input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">							
+								
 									<input type="hidden" name="courseId"
 										value="${course.courseId }">
 									<button class="bookmark text-white" type="submit"
@@ -825,7 +827,7 @@
 								<div class="d-grid card-button">
 									<c:if test="${isBuy ==0 }">
 										<form action="order" method=get>
-
+										<input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">							
 											<input name="listCourseId" value="${course.courseId}"
 												id="listCourseId" class="d-none">
 											<h3 class="text-primary text-center">
@@ -1032,6 +1034,7 @@
 														<c:when test="${user ne null}">
 															<!-- User is logged in, submit the form -->
 															<form action="addToCart" method="post">
+																<input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">							
 																<input type="hidden" name="courseId"
 																	value="${i.courseId }">
 																<button type="submit"

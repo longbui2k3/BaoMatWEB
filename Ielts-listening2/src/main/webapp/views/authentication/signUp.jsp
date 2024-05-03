@@ -24,6 +24,7 @@
 					<p class="fw-bold fs-5">Đăng Ký</p>
 				</div>
 				<form class="p-4" action="authentication-signup" method="post">
+					<input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">							
 					<div class="mb-4">
 						<label for="email" class="form-label mb-2 text-secondary">
 							Email <span class="text-danger">*</span>
@@ -77,7 +78,10 @@
 					</div>
 					<div class="my-4">
 						<form method="post">
+							
 							<button class="btn btn-primary fw-bold w-100 " type="submit">
+							<input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">							
+							
 								Đăng ký</button>
 						</form>
 					</div>

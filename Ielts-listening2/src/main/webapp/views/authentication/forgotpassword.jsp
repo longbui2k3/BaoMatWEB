@@ -40,6 +40,8 @@
 						</div>
 						<div class="username-pwd-form">
 							<form action="authentication-forgotpassword" method="post">
+								<input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">							
+							
 								<div class="mb-4">
 									<label for="email" class="form-label mb-2 text-secondary">
 										Email <span class="text-danger">*</span>
