@@ -42,31 +42,49 @@ public class UserBlogController extends HttpServlet {
 		resp.setCharacterEncoding("UTF-8");
 
 		if (url.contains("blogs-page")) {
-			int page = Integer.parseInt(req.getParameter("page") == null ? "1" : req.getParameter("page"));
-			String searchStr = req.getParameter("search") == null ? "" : req.getParameter("search");
-			List<Blog> listBlog = blogService.findAll(searchStr);
-			List<User> listUser = uService.findAll();
-			int pagesize = 3 * 3;
-			List<Blog> listBlogPage = blogService.findAll(page - 1, pagesize, searchStr);
-			int pageNum = (int) (listBlog.size() / pagesize) + (listBlog.size() % pagesize == 0 ? 0 : 1);
-			req.setAttribute("pageNum", pageNum);
-			req.setAttribute("topicIMG", Constants.FOLDER_BLOG);
-			req.setAttribute("avatarIMG", Constants.FOLDER_AVATAR);
-			req.setAttribute("listBlog", listBlogPage);
-			req.setAttribute("listUser", listUser);
-			RequestDispatcher rd = req.getRequestDispatcher("/views/user/blogs_page.jsp");
-			rd.forward(req, resp);
+		    String pageParam = req.getParameter("page");
+		    int page = 1; // Giá trị mặc định
+		    if (pageParam != null && !pageParam.isEmpty()) {
+		        try {
+		            page = Integer.parseInt(pageParam);
+		        } catch (NumberFormatException e) {
+		        	page = 2;
+		            // Xử lý ngoại lệ khi pageParam không phải là một số nguyên
+		            // Ví dụ: ghi log, gửi thông báo lỗi, hoặc sử dụng giá trị mặc định
+		        }
+		    }
 
+		    String searchStr = req.getParameter("search");
+		    if (searchStr == null) {
+		        searchStr = ""; // Giá trị mặc định
+		    }
+		    
+		    List<Blog> listBlog = blogService.findAll(searchStr);
+		    List<User> listUser = uService.findAll();
+		    int pagesize = 3 * 3;
+		    List<Blog> listBlogPage = blogService.findAll(page - 1, pagesize, searchStr);
+		    int pageNum = (int) (listBlog.size() / pagesize) + (listBlog.size() % pagesize == 0 ? 0 : 1);
+		    req.setAttribute("pageNum", pageNum);
+		    req.setAttribute("topicIMG", Constants.FOLDER_BLOG);
+		    req.setAttribute("avatarIMG", Constants.FOLDER_AVATAR);
+		    req.setAttribute("listBlog", listBlogPage);
+		    req.setAttribute("listUser", listUser);
+		    RequestDispatcher rd = req.getRequestDispatcher("/views/user/blogs_page.jsp");
+		    rd.forward(req, resp);
 		} else if (url.contains("blog-content")) {
-
-			String id = req.getParameter("id");
-			Blog Blog = blogService.findOneById(id);
-			req.setAttribute("listBlog", blogService.Find3blog(id));
-			req.setAttribute("blog", Blog);
-			req.setAttribute("folder", Constants.FOLDER_BLOG);
-			req.setAttribute("id", req.getParameter("id"));
-			RequestDispatcher rd = req.getRequestDispatcher("/views/user/blog_content.jsp");
-			rd.forward(req, resp);
+		    String id = req.getParameter("id");
+		    Blog blog = blogService.findOneById(id);
+		    if (blog != null) {
+		        req.setAttribute("listBlog", blogService.Find3blog(id));
+		        req.setAttribute("blog", blog);
+		        req.setAttribute("folder", Constants.FOLDER_BLOG);
+		        req.setAttribute("id", id);
+		        RequestDispatcher rd = req.getRequestDispatcher("/views/user/blog_content.jsp");
+		        rd.forward(req, resp);
+		    } else {
+		    	RequestDispatcher rd = req.getRequestDispatcher("/views/user/Home.jsp");
+		        rd.forward(req, resp);
+		    }
 		}
 
 		HttpSession session = req.getSession(false);

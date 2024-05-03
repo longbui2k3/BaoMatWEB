@@ -392,7 +392,7 @@ User user = (User) session.getAttribute("user");
 									</button>
 									<button
 										class="btn__page--next d-flex flex-row justify-content-between mt-4 mx-auto py-2 fs-5 fw-bold border-0 rounded-3 align-items-center"
-										style="width: 220px; padding: 0 30px 0 30px;"
+										style="width: 220px; padding: 0 30px 0 30px;"										
 										${ param.page == pageNum || (param.page == null && pageNum == "1") ? "disabled":""}>
 										Trang Sau
 										<svg xmlns="http://www.w3.org/2000/svg" height="24"
@@ -476,7 +476,14 @@ User user = (User) session.getAttribute("user");
 	</script>
 	<script>
 		const params = new URLSearchParams(document.location.search);
-		let page = params.get("page") ? params.get("page"):'1';
+		let page;
+		
+		if (!Number.isInteger(parseInt(page))) {
+	        page = '1'; // Default to page 1 if it can't be parsed
+	    }else{
+	    	//page = params.get("page") ? params.get("page"):'1'
+	    	page = params.get("page") ;
+	    }
 		
 		const li_List = document.querySelectorAll(".div__tab");
 		let currLi = document.querySelectorAll(".div__tab")[0];

@@ -41,6 +41,12 @@ public class LuyenDeHomeController extends HttpServlet {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	public boolean checkLength(String tab) {
+		if(tab.length() < 200000000) {
+			return true;
+		}return false;
+	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -54,25 +60,48 @@ public class LuyenDeHomeController extends HttpServlet {
 		}
 
 		request.setAttribute("currentUser", user);
-		int page = Integer.parseInt(request.getParameter("page") == null ? "1" : request.getParameter("page"));
-		String searchStr = request.getParameter("search") == null ? "" : request.getParameter("search");
-		int tab = Integer.parseInt(request.getParameter("tab") == null ? "1" : request.getParameter("tab"));
-		int pagesize = 6;
-		List<TopicTest> allTopicTestList = topicTestService.findAll(searchStr, tab);
-		List<TopicTest> topicTestList = topicTestService.findAll(page - 1, pagesize, searchStr, tab);
-		int pageNum = (int) (allTopicTestList.size() / pagesize) + (allTopicTestList.size() % pagesize == 0 ? 0 : 1);
-
-		for (TopicTest topic : topicTestList) {
-			for (MockTest test : topic.getMockTests()) {
-				test.setEnrrolTests(enService.findByMockTestId(test.getTestId()));
-			}
+		String pageString = request.getParameter("page");
+		if(pageString == null) {
+			pageString = "1";
 		}
+		//int page = Integer.parseInt(request.getParameter("page") == null ? "1" : request.getParameter("page"));
+		String searchStr = request.getParameter("search") == null ? "" : request.getParameter("search");
+		String tabString = request.getParameter("tab");
+		if(tabString == null) {
+			tabString = "1";
+		}
+		if(checkLength(tabString) && checkLength(pageString)) {
+			int tab;
+			int page;
+			//int tab = Integer.parseInt(request.getParameter("tab") == null ? "1" : request.getParameter("tab"));
+			try {
+			    tab = Integer.parseInt(tabString);
+			    page = Integer.parseInt(pageString);
+			} catch (NumberFormatException e) {
+				tab = 1;
+				page = 1;
+			}
+			//int tab = Integer.parseInt(tabString);
+			int pagesize = 6;
+			List<TopicTest> allTopicTestList = topicTestService.findAll(searchStr, tab);
+			List<TopicTest> topicTestList = topicTestService.findAll(page - 1, pagesize, searchStr, tab);
+			int pageNum = (int) (allTopicTestList.size() / pagesize) + (allTopicTestList.size() % pagesize == 0 ? 0 : 1);
 
-		request.setAttribute("topicTests", topicTestList);
-		request.setAttribute("pagesize", pagesize);
-		request.setAttribute("pageNum", pageNum);
-		RequestDispatcher rd = request.getRequestDispatcher("/views/luyende/luyende_home.jsp");
-		rd.forward(request, response);
+			for (TopicTest topic : topicTestList) {
+				for (MockTest test : topic.getMockTests()) {
+					test.setEnrrolTests(enService.findByMockTestId(test.getTestId()));
+				}
+			}
+
+			request.setAttribute("topicTests", topicTestList);
+			request.setAttribute("pagesize", pagesize);
+			request.setAttribute("pageNum", pageNum);
+			RequestDispatcher rd = request.getRequestDispatcher("/views/luyende/luyende_home.jsp");
+			rd.forward(request, response);
+		}else {
+			RequestDispatcher rd = request.getRequestDispatcher("/views/user/Home.jsp");
+			rd.forward(request, response);
+		}
 	}
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
