@@ -142,6 +142,8 @@ pageContext.setAttribute("cartSize", carts != null ? carts.size() : 0);
 								<ul class="list-unstyled m-0">
 									<li>
 										<form action=logout method="post">
+											<input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
+										
 											<button class="dropdown-item">
 												<i class="fe fe-power me-2"></i> Đăng Xuất
 											</button>

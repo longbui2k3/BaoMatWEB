@@ -58,6 +58,8 @@
 							<div class="d-flex align-items-center">
 
 								<form action="addToCart" method="post">
+									<input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">							
+								
 									<input type="hidden" name="courseId"
 										value="${course.courseId }">
 									<button class="bookmark text-white" type="submit"
@@ -90,8 +92,8 @@
 										<c:set var="star" value="0"></c:set>
 									</c:otherwise>
 								</c:choose>
-								<fmt:formatNumber type="number" maxFractionDigits="0"
-									value="${star}" var="starInteger" />
+									<fmt:parseNumber var="starInteger" value="${star}" integerOnly="true" parseLocale="en_US" />
+					
 								<c:if test="${people > 0 }">
 									<div>
 										<span class="fs-6 ms-4 align-text-top"> <c:forEach
@@ -370,8 +372,9 @@
 														<fmt:formatNumber type="number" maxFractionDigits="1"
 															value="${star}" var="starRounded" />
 														<h3 class="display-2 fw-bold">${starRounded}</h3>
-														<fmt:formatNumber type="number" maxFractionDigits="0"
-															value="${star}" var="starInteger" />
+														
+													   <fmt:parseNumber var="starInteger" value="${star}" integerOnly="true" parseLocale="en_US" />
+															
 														<span class="fs-6"> <c:forEach var="i" begin="1"
 																end="4">
 																<svg xmlns="http://www.w3.org/2000/svg" width="12"
@@ -825,7 +828,7 @@
 								<div class="d-grid card-button">
 									<c:if test="${isBuy ==0 }">
 										<form action="order" method=get>
-
+										<input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">							
 											<input name="listCourseId" value="${course.courseId}"
 												id="listCourseId" class="d-none">
 											<h3 class="text-primary text-center">
@@ -1032,6 +1035,7 @@
 														<c:when test="${user ne null}">
 															<!-- User is logged in, submit the form -->
 															<form action="addToCart" method="post">
+																<input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">							
 																<input type="hidden" name="courseId"
 																	value="${i.courseId }">
 																<button type="submit"

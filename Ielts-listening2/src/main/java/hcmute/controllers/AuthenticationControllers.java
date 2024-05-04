@@ -3,7 +3,9 @@ package hcmute.controllers;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.module.ModuleDescriptor.Requires;
+import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -32,23 +34,29 @@ import hcmute.utils.compositeId.PasswordEncryptor;
 
 @WebServlet(urlPatterns = { "/authentication-login", "/authentication-signup", "/authentication-forgotpassword",
 		"/authentication-verifycode", "/authentication-resent", "/user/logout", "/admin/logout", "/waiting" })
+
 public class AuthenticationControllers extends HttpServlet {
 
 	IAccountServices accountService = new AccountServiceImpl();
 	IUserService userService = new UserServiceImpl();
 	ICartService cartService = new CartServiceImpl();
-
+	private static final String CSRF_TOKEN_SESSION_ATTR = "csrfToken";
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		HttpSession session = req.getSession(true);
+		
+		String csrfToken = generateCsrfToken();
+		session.setAttribute(CSRF_TOKEN_SESSION_ATTR, csrfToken);
 		String url = req.getRequestURI().toString();
+		resp.setHeader("X-Frame-Options", "DENY");
+
 		if (url.contains("login")) {
 			getLogin(req, resp);
 		} else if (url.contains("signup")) {
 			RequestDispatcher rd = req.getRequestDispatcher("/views/authentication/signUp.jsp");
 			rd.forward(req, resp);
 		} else if (url.contains("waiting")) {
-			HttpSession session = req.getSession();
+			session = req.getSession();
 			if (session != null && session.getAttribute("user") != null) {
 				User user = (User) session.getAttribute("user");
 				String role = (String) session.getAttribute("role");
@@ -72,17 +80,34 @@ public class AuthenticationControllers extends HttpServlet {
 		} else if (url.contains("resent")) {
 			getResent(req, resp);
 		}
-	}
+        
 
+	}
+	private String generateCsrfToken() {
+	    SecureRandom random = new SecureRandom();
+	    byte[] csrfTokenBytes = new byte[32];
+	    random.nextBytes(csrfTokenBytes);
+	    return Base64.getUrlEncoder().withoutPadding().encodeToString(csrfTokenBytes);
+	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String url = req.getRequestURI().toString();
+		resp.setHeader("X-Frame-Options", "DENY");
+		HttpSession session = req.getSession(false);
+		String csrfTokenFromSession = (String) session.getAttribute(CSRF_TOKEN_SESSION_ATTR);
+		 String csrfTokenFromRequest = req.getParameter("csrfToken");
+
+		    if (csrfTokenFromSession == null || !csrfTokenFromSession.equals(csrfTokenFromRequest)) {
+		        resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
+		        resp.getWriter().println("CSRF token validation failed");
+		        return;
+		    }
 		if (url.contains("signup")) {
 			SignUp(req, resp);
 		} else if (url.contains("login")) {
 			postLogin(req, resp);
 		} else if (url.contains("logout")) {
-			HttpSession session = req.getSession();
+			session = req.getSession();
 			session.removeAttribute("user");
 			session.removeAttribute("role");
 			session.removeAttribute("cart");

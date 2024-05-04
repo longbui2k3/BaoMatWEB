@@ -352,7 +352,6 @@
                                     <div class="card-body p-5">
                                         <h2 class="mb-4 fw-semibold">Gửi yêu cầu</h2>
                                         <!-- form  -->
-                                        <form class="needs-validation" novalidate>
                                             <!-- input  -->
                                             <div class="mb-3">
                                                 <label class="form-label" for="name">Tiêu đề</label>
@@ -372,7 +371,7 @@
 														accept="image/jpeg, image/png" require>
                                             </div>
                                             <!-- button  -->
-                                            <button class="btn btn-primary" type="submit">Gửi</button>
+                                            <button class="btn btn-primary" >Gửi</button>
                                         </form>
                                     </div>
                                 </div>

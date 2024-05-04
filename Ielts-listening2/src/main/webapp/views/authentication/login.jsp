@@ -36,6 +36,7 @@
 						</div>
 						<div class="username-pwd-form">
 							<form action="authentication-login" method="post">
+							    <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">							
 								<div class="mb-4">
 									<label for="username" class="form-label mb-2 text-secondary">
 										Username <span class="text-danger">*</span>

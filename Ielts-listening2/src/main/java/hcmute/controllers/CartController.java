@@ -3,6 +3,7 @@ package hcmute.controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -38,6 +39,10 @@ public class CartController extends HttpServlet {
 		 */
 		HttpSession session = req.getSession(false);
 		if (session != null && session.getAttribute("user") != null) {
+			String csrfToken = generateCSRFToken(session);
+
+	            // Set CSRF token in request attribute
+	        req.setAttribute("csrfToken", csrfToken);
 			int countAddToCartByUser = 0;
 
 			List<Cart> finalCarts = new ArrayList<Cart>();
@@ -102,7 +107,12 @@ public class CartController extends HttpServlet {
 		ICourseService courseService = new CourseServiceImpl();
 		ICartService cartService = new CartServiceImpl();
 		IUserCourseService userCourseService = new UserCourseServiceImpl();
-		HttpSession session = req.getSession(false);
+		String csrfToken = req.getParameter("csrfToken");
+        HttpSession session = req.getSession(false);
+        if (!validateCSRFToken(session, csrfToken)) {
+            resp.sendRedirect("/error-page");
+            return;
+        }
 		String prevUrl = req.getHeader("referer");
 		String[] prev = prevUrl.split("/");
 		String lastPrevUrl = prev[prev.length - 1];
@@ -167,4 +177,18 @@ public class CartController extends HttpServlet {
 			resp.sendRedirect(req.getContextPath() + "/user/" + lastPrevUrl);
 		}
 	}
+	private String generateCSRFToken(HttpSession session) {
+        // Generate CSRF token
+        String csrfToken = UUID.randomUUID().toString();
+        // Store CSRF token in session
+        session.setAttribute("csrfToken", csrfToken);
+        return csrfToken;
+    }
+
+    private boolean validateCSRFToken(HttpSession session, String csrfToken) {
+        // Validate CSRF token
+        String sessionToken = (String) session.getAttribute("csrfToken");
+        return csrfToken != null && csrfToken.equals(sessionToken);
+    }
 }
+

@@ -3,6 +3,7 @@ package hcmute.controllers;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -67,6 +68,7 @@ public class UserLessonController extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		resp.setCharacterEncoding("UTF-8");
 		String url = req.getRequestURI().toString();
+		resp.setHeader("X-Frame-Options", "DENY");
 
 		HttpSession session = req.getSession(false);
 		if (session != null && session.getAttribute("user") != null) {
@@ -156,7 +158,14 @@ public class UserLessonController extends HttpServlet {
 		resp.setCharacterEncoding("UTF-8");
 
 		String url = req.getRequestURI().toString();
-
+		String csrfToken = req.getParameter("csrfToken");
+	    HttpSession session = req.getSession(false);
+	    if (!validateCSRFToken(session, csrfToken)) {
+	            // Invalid or missing CSRF token, handle error
+	            // For example:
+	            resp.sendRedirect("/error-page");
+	            return;
+	        }
 		if (url.contains("reply")) {
 			CommentLesson c = cmtService.findOneById(req.getParameter("id"));
 
@@ -238,4 +247,17 @@ public class UserLessonController extends HttpServlet {
 			}
 		}
 	}
+	
+	 private String generateCSRFToken(HttpSession session) {
+	        // Generate CSRF token
+	        String csrfToken = UUID.randomUUID().toString();
+	        // Store CSRF token in session
+	        session.setAttribute("csrfToken", csrfToken);
+	        return csrfToken;
+	    }
+	 private boolean validateCSRFToken(HttpSession session, String csrfToken) {
+	        // Validate CSRF token
+	        String sessionToken = (String) session.getAttribute("csrfToken");
+	        return csrfToken != null && csrfToken.equals(sessionToken);
+	    }
 }

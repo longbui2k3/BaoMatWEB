@@ -38,6 +38,8 @@
 						<p class="fs-6 mb-1">Vui lòng nhập mã xác nhận bên dưới</p>
 					</div>
 					<form action="authentication-verifycode" method="post">
+						<input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">							
+						
 						<div
 							class="w-100 mt-4 mb-3 d-flex flex-row justify-content-between">
 							<c:forEach var="i" begin="1" end="6" step="1">
