@@ -576,5 +576,6 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 			})
 		}
 	</script>
+
 </body>
 </html>

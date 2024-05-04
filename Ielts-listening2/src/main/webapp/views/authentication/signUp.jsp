@@ -74,12 +74,12 @@
 								</div>
 							</button>
 						</div>
-					</div>
+					</div>					
 					<div class="my-4">
 						<form method="post">
 							<button class="btn btn-primary fw-bold w-100 " type="submit">
-								Đăng ký</button>
-						</form>
+								Đăng ký</button>								
+						</form>						
 					</div>
 					<span class="text-primary"> Đã có tài khoản? <a
 						class="text-decoration-underline" href="authentication-login"><strong>Đăng
@@ -199,7 +199,8 @@
 				hideBtn.style.display = "none"; // Hide the hide button
 			}
 		}
-	</script>
+		
+	</script>		
 
 </body>
 </html>

@@ -104,7 +104,7 @@
 													</div>
 													<div class="col lh-1">
 														<h5 class="mb-1">${list.users.name }</h5>
-														<%-- <p class="fs-6 mb-0">${list.createdDate }</p> --%>
+														<p class="fs-6 mb-0">${list.createdDate }</p>
 													</div>
 												</div>
 											</div>
