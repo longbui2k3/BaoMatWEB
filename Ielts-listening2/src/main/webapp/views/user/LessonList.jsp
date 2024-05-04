@@ -95,7 +95,7 @@
 								<c:if test="${people > 0 }">
 									<div>
 										<span class="fs-6 ms-4 align-text-top"> <c:forEach
-												var="i" begin="1" end="${starInteger }">
+												var="i" begin="1" end="4">
 												<svg xmlns="http://www.w3.org/2000/svg" width="12"
 													height="12" fill="currentColor"
 													class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
@@ -373,7 +373,7 @@
 														<fmt:formatNumber type="number" maxFractionDigits="0"
 															value="${star}" var="starInteger" />
 														<span class="fs-6"> <c:forEach var="i" begin="1"
-																end="${starInteger }">
+																end="4">
 																<svg xmlns="http://www.w3.org/2000/svg" width="12"
 																	height="12" fill="currentColor"
 																	class="bi bi-star-fill text-warning"

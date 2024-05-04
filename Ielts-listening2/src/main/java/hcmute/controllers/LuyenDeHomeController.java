@@ -54,25 +54,33 @@ public class LuyenDeHomeController extends HttpServlet {
 		}
 
 		request.setAttribute("currentUser", user);
-		int page = Integer.parseInt(request.getParameter("page") == null ? "1" : request.getParameter("page"));
-		String searchStr = request.getParameter("search") == null ? "" : request.getParameter("search");
-		int tab = Integer.parseInt(request.getParameter("tab") == null ? "1" : request.getParameter("tab"));
-		int pagesize = 6;
-		List<TopicTest> allTopicTestList = topicTestService.findAll(searchStr, tab);
-		List<TopicTest> topicTestList = topicTestService.findAll(page - 1, pagesize, searchStr, tab);
-		int pageNum = (int) (allTopicTestList.size() / pagesize) + (allTopicTestList.size() % pagesize == 0 ? 0 : 1);
+		// Kiểm tra đầu vào của tham số cần truyền là một số dựa vào hàm Integer.parseInt(), 
+		// nếu tham số cần truyền không phải là số thì sẽ bắt lỗi và trả về Not Found
+		try {
+			int page = Integer.parseInt(request.getParameter("page") == null ? "1" : request.getParameter("page"));
+			String searchStr = request.getParameter("search") == null ? "" : request.getParameter("search");
+			int tab = Integer.parseInt(request.getParameter("tab") == null ? "1" : request.getParameter("tab"));
+			
+			int pagesize = 6;
+			List<TopicTest> allTopicTestList = topicTestService.findAll(searchStr, tab);
+			List<TopicTest> topicTestList = topicTestService.findAll(page - 1, pagesize, searchStr, tab);
+			int pageNum = (int) (allTopicTestList.size() / pagesize) + (allTopicTestList.size() % pagesize == 0 ? 0 : 1);
 
-		for (TopicTest topic : topicTestList) {
-			for (MockTest test : topic.getMockTests()) {
-				test.setEnrrolTests(enService.findByMockTestId(test.getTestId()));
+			for (TopicTest topic : topicTestList) {
+				for (MockTest test : topic.getMockTests()) {
+					test.setEnrrolTests(enService.findByMockTestId(test.getTestId()));
+				}
 			}
-		}
 
-		request.setAttribute("topicTests", topicTestList);
-		request.setAttribute("pagesize", pagesize);
-		request.setAttribute("pageNum", pageNum);
-		RequestDispatcher rd = request.getRequestDispatcher("/views/luyende/luyende_home.jsp");
-		rd.forward(request, response);
+			request.setAttribute("topicTests", topicTestList);
+			request.setAttribute("pagesize", pagesize);
+			request.setAttribute("pageNum", pageNum);
+			RequestDispatcher rd = request.getRequestDispatcher("/views/luyende/luyende_home.jsp");
+			rd.forward(request, response);
+		} catch(Exception err) {
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			response.getWriter().println("<html><body><p>NOT FOUND</p></body></html>");
+		}	
 	}
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

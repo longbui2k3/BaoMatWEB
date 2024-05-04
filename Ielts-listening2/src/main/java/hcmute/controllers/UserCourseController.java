@@ -50,7 +50,13 @@ public class UserCourseController extends HttpServlet {
 		String searchStr = req.getParameter("search") == null ? "" : req.getParameter("search");
 		if (url.contains("course-detail")) {
 			String courseId = req.getParameter("courseId");
+			// Kiểm tra có tồn tại đối tượng với id lấy được từ tham số hay không
 			Course course = courseService.findById(courseId);
+			if (course == null) {
+				resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+				resp.getWriter().println("<html><body><p>NOT FOUND</p></body></html>");
+				return;
+			}
 			HttpSession session = req.getSession();
 			User user = (User) session.getAttribute("user");
 			String userId;
