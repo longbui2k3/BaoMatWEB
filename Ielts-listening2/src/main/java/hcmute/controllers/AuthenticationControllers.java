@@ -6,6 +6,7 @@ import java.lang.module.ModuleDescriptor.Requires;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.persistence.EntityManager;
 import javax.servlet.RequestDispatcher;
@@ -141,19 +142,25 @@ public class AuthenticationControllers extends HttpServlet {
 				return;
 			}
 			String passWord;
+	        Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
 			if (req.getParameter("passWord").contains(" ")) {
 				req.setAttribute("message", "Mật khẩu không được phép có dấu cách");
 				RequestDispatcher rd = req.getRequestDispatcher("/views/authentication/signUp.jsp");
 				rd.forward(req, resp);
 				return;
-			} else
+			} else if(req.getParameter("passWord").length() < 8) {
+				req.setAttribute("message", "Mật khẩu phải có nhiều hơn 8 kí tự");
+				RequestDispatcher rd = req.getRequestDispatcher("/views/authentication/signUp.jsp");
+				rd.forward(req, resp);
+				return;
+			} else if(pattern.matcher(req.getParameter("passWord")).find()) {
+				req.setAttribute("message", "Mật khẩu chỉ chứa các kí tự chữ và số.");
+				RequestDispatcher rd = req.getRequestDispatcher("/views/authentication/signUp.jsp");
+				rd.forward(req, resp);
+				return;
+			}
+			else
 				passWord = PasswordEncryptor.encryptPassword(req.getParameter("passWord"));
-			/*
-			 * if (accountService.checkExistEmail(email)) { req.setAttribute("message",
-			 * "Email đã tồn tại trong hệ thống!"); RequestDispatcher rd =
-			 * req.getRequestDispatcher("/views/authentication/signUp.jsp"); rd.forward(req,
-			 * resp); return; }
-			 */
 			if (accountService.checkExistUsername(userName)) {
 				req.setAttribute("message", "Username đã tồn tại trong hệ thống!");
 				RequestDispatcher rd = req.getRequestDispatcher("/views/authentication/signUp.jsp");
