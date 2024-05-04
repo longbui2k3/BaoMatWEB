@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import javax.servlet.http.HttpSession;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -12,19 +12,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import hcmute.services.IMockTestService;
-import hcmute.entity.Blog;
+import javax.servlet.http.HttpSession;
+
 import hcmute.entity.EnrrolTest;
 import hcmute.entity.MockTest;
 import hcmute.entity.TopicTest;
 import hcmute.entity.User;
 import hcmute.services.EnrollTestService;
+import hcmute.services.IMockTestService;
 import hcmute.services.ITopicTestService;
 import hcmute.services.IUserService;
 import hcmute.services.MockTestServiceImpl;
 import hcmute.services.TopicTestServiceImpl;
 import hcmute.services.UserServiceImpl;
-import hcmute.utils.Constants;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 10, maxFileSize = 1024 * 1024 * 50, maxRequestSize = 1024 * 1024
 		* 50)
@@ -44,6 +44,8 @@ public class LuyenDeHomeController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		resp.setHeader("Content-Security-Policy", "default-src 'self'; frame-ancestors 'self'; form-action 'self'");
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		if (user != null && enrollTestService.findEnTestProcess(user.getUserId()) != null) {

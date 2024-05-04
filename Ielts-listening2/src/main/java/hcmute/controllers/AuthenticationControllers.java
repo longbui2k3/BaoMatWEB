@@ -9,7 +9,6 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.EntityManager;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import JPAConfig.JPAConfig;
 import hcmute.entity.Account;
 import hcmute.entity.Cart;
 import hcmute.entity.User;
@@ -50,6 +48,9 @@ public class AuthenticationControllers extends HttpServlet {
 		String url = req.getRequestURI().toString();
 		resp.setHeader("X-Frame-Options", "DENY");
 
+		resp.setHeader("Content-Security-Policy", "default-src 'self'; frame-ancestors 'self'; form-action 'self'");
+
+		String url = req.getRequestURI().toString();
 		if (url.contains("login")) {
 			getLogin(req, resp);
 		} else if (url.contains("signup")) {
@@ -91,6 +92,9 @@ public class AuthenticationControllers extends HttpServlet {
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+		resp.setHeader("Content-Security-Policy", "default-src 'self'; frame-ancestors 'self'; form-action 'self'");
+
 		String url = req.getRequestURI().toString();
 		resp.setHeader("X-Frame-Options", "DENY");
 		HttpSession session = req.getSession(false);
@@ -196,18 +200,27 @@ public class AuthenticationControllers extends HttpServlet {
 			int minutes = 15;
 			Cookie cookie1 = new Cookie("username", userName);
 			cookie1.setMaxAge(minutes * 60);
+			cookie1.setHttpOnly(true);
+			// Khuyến nghị sử dụng HTTPOnly để bảo vệ cookie khỏi tấn công XSS
+			cookie1.setSameSite(Cookie.SameSite.LAX);
 			resp.addCookie(cookie1);
 
 			Cookie cookie2 = new Cookie("email", email);
 			cookie2.setMaxAge(minutes * 60);
+			cookie2.setHttpOnly(true);
+			cookie2.setSameSite(Cookie.SameSite.LAX);
 			resp.addCookie(cookie2);
 
 			Cookie cookie3 = new Cookie("code", PasswordEncryptor.encryptPassword(code));
 			cookie3.setMaxAge(minutes * 60);
+			cookie3.setHttpOnly(true);
+			cookie3.setSameSite(Cookie.SameSite.LAX);
 			resp.addCookie(cookie3);
 
 			Cookie cookie4 = new Cookie("password", passWord);
 			cookie4.setMaxAge(minutes * 60);
+			cookie4.setHttpOnly(true);
+			cookie4.setSameSite(Cookie.SameSite.LAX);
 			resp.addCookie(cookie4);
 
 			long createCodeAt = 0;
@@ -223,6 +236,8 @@ public class AuthenticationControllers extends HttpServlet {
 				createCodeAt = new Date().getTime();
 				Cookie cookie5 = new Cookie("createCodeAt", String.valueOf(createCodeAt));
 				cookie5.setMaxAge(minutes * 60);
+				cookie5.setHttpOnly(true);
+				cookie5.setSameSite(Cookie.SameSite.LAX);
 				resp.addCookie(cookie5);
 
 			}
@@ -230,6 +245,8 @@ public class AuthenticationControllers extends HttpServlet {
 			String turn = "5";
 			Cookie cookieTurn = new Cookie("turn", turn);
 			cookieTurn.setMaxAge(minutes * 60);
+			cookieTurn.setHttpOnly(true);
+			cookieTurn.setSameSite(Cookie.SameSite.LAX);
 			resp.addCookie(cookieTurn);
 
 			resp.sendRedirect(req.getContextPath() + "/authentication-verifycode");
@@ -371,21 +388,27 @@ public class AuthenticationControllers extends HttpServlet {
 		if (turn <= 0) {
 			Cookie cookie1 = new Cookie("username", "");
 			cookie1.setMaxAge(0);
+			cookie1.setSameSite(Cookie.SameSite.LAX);
 			resp.addCookie(cookie1);
 			Cookie cookie2 = new Cookie("email", "");
 			cookie2.setMaxAge(0);
+			cookie2.setSameSite(Cookie.SameSite.LAX);
 			resp.addCookie(cookie2);
 			Cookie cookie3 = new Cookie("code", "");
 			cookie3.setMaxAge(0);
+			cookie3.setSameSite(Cookie.SameSite.LAX);
 			resp.addCookie(cookie3);
 			Cookie cookie4 = new Cookie("password", "");
 			cookie4.setMaxAge(0);
+			cookie4.setSameSite(Cookie.SameSite.LAX);
 			resp.addCookie(cookie4);
 			Cookie cookie5 = new Cookie("createCodeAt", "");
 			cookie5.setMaxAge(0);
+			cookie5.setSameSite(Cookie.SameSite.LAX);
 			resp.addCookie(cookie5);
 			Cookie cookie6 = new Cookie("turn", "");
 			cookie6.setMaxAge(0);
+			cookie6.setSameSite(Cookie.SameSite.LAX);
 			resp.addCookie(cookie6);
 			req.setAttribute("message", "tạo tài khoản không thành công do otp nhập sai quá 5 lần!");
 			RequestDispatcher rd = req.getRequestDispatcher("/views/authentication/signUp.jsp");
@@ -396,18 +419,23 @@ public class AuthenticationControllers extends HttpServlet {
 		if (otp.equals(code)) {
 			Cookie cookie1 = new Cookie("username", "");
 			cookie1.setMaxAge(0);
+			cookie1.setSameSite(Cookie.SameSite.LAX);
 			resp.addCookie(cookie1);
 			Cookie cookie2 = new Cookie("email", "");
 			cookie2.setMaxAge(0);
+			cookie2.setSameSite(Cookie.SameSite.LAX);
 			resp.addCookie(cookie2);
 			Cookie cookie3 = new Cookie("code", "");
 			cookie3.setMaxAge(0);
+			cookie3.setSameSite(Cookie.SameSite.LAX);
 			resp.addCookie(cookie3);
 			Cookie cookie4 = new Cookie("password", "");
 			cookie4.setMaxAge(0);
+			cookie4.setSameSite(Cookie.SameSite.LAX);
 			resp.addCookie(cookie4);
 			Cookie cookie5 = new Cookie("createCodeAt", "");
 			cookie5.setMaxAge(0);
+			cookie5.setSameSite(Cookie.SameSite.LAX);
 			resp.addCookie(cookie5);
 			Account account = new Account();
 			account.setUserName(username);

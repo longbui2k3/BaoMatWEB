@@ -6,14 +6,11 @@ import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import hcmute.entity.Account;
 import hcmute.entity.Course;
-import hcmute.entity.User;
 import hcmute.services.AccountServiceImpl;
 import hcmute.services.AdminKhoaHocServiceImpl;
 import hcmute.services.IAccountServices;
@@ -32,6 +29,9 @@ public class UserController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/html");
+
+		resp.setHeader("Content-Security-Policy", "default-src 'self'; frame-ancestors 'self'; form-action 'self'");
+
 		String url = req.getRequestURI().toString();
 		resp.setHeader("X-Frame-Options", "DENY");
         resp.getWriter().println("Hello, world!");
