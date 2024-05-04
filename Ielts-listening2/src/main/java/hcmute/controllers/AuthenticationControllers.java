@@ -50,13 +50,13 @@ public class AuthenticationControllers extends HttpServlet {
 
 		resp.setHeader("Content-Security-Policy", "default-src 'self'; frame-ancestors 'self'; form-action 'self'");
 
-		String url = req.getRequestURI().toString();
-		if (url.contains("login")) {
+		String url1 = req.getRequestURI().toString();
+		if (url1.contains("login")) {
 			getLogin(req, resp);
-		} else if (url.contains("signup")) {
+		} else if (url1.contains("signup")) {
 			RequestDispatcher rd = req.getRequestDispatcher("/views/authentication/signUp.jsp");
 			rd.forward(req, resp);
-		} else if (url.contains("waiting")) {
+		} else if (url1.contains("waiting")) {
 			session = req.getSession();
 			if (session != null && session.getAttribute("user") != null) {
 				User user = (User) session.getAttribute("user");
@@ -74,11 +74,11 @@ public class AuthenticationControllers extends HttpServlet {
 
 			} else
 				req.getRequestDispatcher("views/authentication/login.jsp").forward(req, resp);
-		} else if (url.contains("forgotpassword")) {
+		} else if (url1.contains("forgotpassword")) {
 			req.getRequestDispatcher("views/authentication/forgotpassword.jsp").forward(req, resp);
-		} else if (url.contains("verifycode")) {
+		} else if (url1.contains("verifycode")) {
 			req.getRequestDispatcher("views/authentication/verifycode.jsp").forward(req, resp);
-		} else if (url.contains("resent")) {
+		} else if (url1.contains("resent")) {
 			getResent(req, resp);
 		}
         
