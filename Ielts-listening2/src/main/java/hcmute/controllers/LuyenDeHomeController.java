@@ -64,7 +64,6 @@ public class LuyenDeHomeController extends HttpServlet {
 		if(pageString == null) {
 			pageString = "1";
 		}
-		//int page = Integer.parseInt(request.getParameter("page") == null ? "1" : request.getParameter("page"));
 		String searchStr = request.getParameter("search") == null ? "" : request.getParameter("search");
 		String tabString = request.getParameter("tab");
 		if(tabString == null) {
@@ -73,7 +72,6 @@ public class LuyenDeHomeController extends HttpServlet {
 		if(checkLength(tabString) && checkLength(pageString)) {
 			int tab;
 			int page;
-			//int tab = Integer.parseInt(request.getParameter("tab") == null ? "1" : request.getParameter("tab"));
 			try {
 			    tab = Integer.parseInt(tabString);
 			    page = Integer.parseInt(pageString);
@@ -81,7 +79,6 @@ public class LuyenDeHomeController extends HttpServlet {
 				tab = 1;
 				page = 1;
 			}
-			//int tab = Integer.parseInt(tabString);
 			int pagesize = 6;
 			List<TopicTest> allTopicTestList = topicTestService.findAll(searchStr, tab);
 			List<TopicTest> topicTestList = topicTestService.findAll(page - 1, pagesize, searchStr, tab);
