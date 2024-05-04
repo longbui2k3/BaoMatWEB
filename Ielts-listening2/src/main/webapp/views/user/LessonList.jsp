@@ -92,8 +92,8 @@
 										<c:set var="star" value="0"></c:set>
 									</c:otherwise>
 								</c:choose>
-								<fmt:formatNumber type="number" maxFractionDigits="0"
-									value="${star}" var="starInteger" />
+									<fmt:parseNumber var="starInteger" value="${star}" integerOnly="true" parseLocale="en_US" />
+					
 								<c:if test="${people > 0 }">
 									<div>
 										<span class="fs-6 ms-4 align-text-top"> <c:forEach
@@ -372,8 +372,9 @@
 														<fmt:formatNumber type="number" maxFractionDigits="1"
 															value="${star}" var="starRounded" />
 														<h3 class="display-2 fw-bold">${starRounded}</h3>
-														<fmt:formatNumber type="number" maxFractionDigits="0"
-															value="${star}" var="starInteger" />
+														
+													   <fmt:parseNumber var="starInteger" value="${star}" integerOnly="true" parseLocale="en_US" />
+															
 														<span class="fs-6"> <c:forEach var="i" begin="1"
 																end="${starInteger }">
 																<svg xmlns="http://www.w3.org/2000/svg" width="12"
