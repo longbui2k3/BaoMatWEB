@@ -19,7 +19,10 @@ public class HeaderFilter implements Filter {
 
 		HttpServletResponse resp = (HttpServletResponse) response;
 		resp.setHeader("X-Content-Type-Options", "nosniff");
-		resp.setHeader("Content-Security-Policy", "default-src 'self'; frame-ancestors 'self'; form-action 'self'");
+		resp.setHeader("Content-Security-Policy",
+				"default-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; frame-ancestors 'self'; form-action 'self'");
+		
+
 
 		chain.doFilter(request, response);
 	}

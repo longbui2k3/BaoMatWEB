@@ -1,13 +1,10 @@
 package hcmute.controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.lang.module.ModuleDescriptor.Requires;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.EntityManager;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import JPAConfig.JPAConfig;
 import hcmute.entity.Account;
 import hcmute.entity.Cart;
 import hcmute.entity.User;
@@ -27,6 +23,7 @@ import hcmute.services.IAccountServices;
 import hcmute.services.ICartService;
 import hcmute.services.IUserService;
 import hcmute.services.UserServiceImpl;
+import hcmute.utils.CookieUtil;
 import hcmute.utils.Email;
 import hcmute.utils.compositeId.PasswordEncryptor;
 
@@ -40,6 +37,8 @@ public class AuthenticationControllers extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+		// resp.setHeader("X-Content-Type-Options", "nosniff");
 
 		String url = req.getRequestURI().toString();
 		if (url.contains("login")) {
@@ -118,6 +117,7 @@ public class AuthenticationControllers extends HttpServlet {
 	}
 
 	private void SignUp(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
 		try {
 			req.setCharacterEncoding("UTF-8");
 			resp.setCharacterEncoding("UTF-8");
@@ -169,21 +169,36 @@ public class AuthenticationControllers extends HttpServlet {
 				return;
 			}
 			int minutes = 15;
-			Cookie cookie1 = new Cookie("username", userName);
-			cookie1.setMaxAge(minutes * 60);
-			resp.addCookie(cookie1);
 
-			Cookie cookie2 = new Cookie("email", email);
-			cookie2.setMaxAge(minutes * 60);
-			resp.addCookie(cookie2);
+			/*
+			 * Cookie cookie1 = new Cookie("username", userName); cookie1.setMaxAge(minutes
+			 * * 60); resp.addCookie(cookie1);
+			 */
 
-			Cookie cookie3 = new Cookie("code", PasswordEncryptor.encryptPassword(code));
-			cookie3.setMaxAge(minutes * 60);
-			resp.addCookie(cookie3);
+			CookieUtil.addCookie(resp, "username", userName, minutes * 60, "lax");
 
-			Cookie cookie4 = new Cookie("password", passWord);
-			cookie4.setMaxAge(minutes * 60);
-			resp.addCookie(cookie4);
+			/*
+			 * Cookie cookie2 = new Cookie("email", email); cookie2.setMaxAge(minutes * 60);
+			 * resp.addCookie(cookie2);
+			 */
+
+			CookieUtil.addCookie(resp, "email", email, minutes * 60, "lax");
+
+			/*
+			 * Cookie cookie3 = new Cookie("code", PasswordEncryptor.encryptPassword(code));
+			 * cookie3.setMaxAge(minutes * 60); resp.addCookie(cookie3);
+			 */
+
+			CookieUtil.addCookie(resp, "code", PasswordEncryptor.encryptPassword(code), minutes * 60, "lax");
+
+
+			/*
+			 * Cookie cookie4 = new Cookie("password", passWord); cookie4.setMaxAge(minutes
+			 * * 60); resp.addCookie(cookie4);
+			 */
+
+			CookieUtil.addCookie(resp, "password", passWord, minutes * 60, "lax");
+
 
 			long createCodeAt = 0;
 			Cookie[] cookies = req.getCookies();
@@ -196,16 +211,23 @@ public class AuthenticationControllers extends HttpServlet {
 			}
 			if (createCodeAt == 0) {
 				createCodeAt = new Date().getTime();
-				Cookie cookie5 = new Cookie("createCodeAt", String.valueOf(createCodeAt));
-				cookie5.setMaxAge(minutes * 60);
-				resp.addCookie(cookie5);
+				/*
+				 * Cookie cookie5 = new Cookie("createCodeAt", String.valueOf(createCodeAt));
+				 * cookie5.setMaxAge(minutes * 60); resp.addCookie(cookie5);
+				 */
+
+				CookieUtil.addCookie(resp, "createCodeAt", String.valueOf(createCodeAt), minutes * 60, "lax");
 
 			}
 
 			String turn = "5";
-			Cookie cookieTurn = new Cookie("turn", turn);
-			cookieTurn.setMaxAge(minutes * 60);
-			resp.addCookie(cookieTurn);
+			/*
+			 * Cookie cookieTurn = new Cookie("turn", turn); cookieTurn.setMaxAge(minutes *
+			 * 60); resp.addCookie(cookieTurn);
+			 */
+			
+			CookieUtil.addCookie(resp, "turn", turn, minutes * 60, "lax");
+
 
 			resp.sendRedirect(req.getContextPath() + "/authentication-verifycode");
 
@@ -408,8 +430,11 @@ public class AuthenticationControllers extends HttpServlet {
 
 			turn = turn - 1;
 			Cookie cookieTurn = new Cookie("turn", String.valueOf(turn));
-			cookieTurn.setMaxAge(15 * 60); //
+			cookieTurn.setMaxAge(15 * 60);
 			resp.addCookie(cookieTurn);
+
+			CookieUtil.addCookie(resp, "turn", String.valueOf(turn), 15 * 60, "lax");
+
 
 			req.setAttribute("message", "Mã OTP chưa chính xác. Vui lòng nhập lại");
 			req.getRequestDispatcher("views/authentication/verifycode.jsp").forward(req, resp);
